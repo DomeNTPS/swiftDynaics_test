@@ -1,53 +1,37 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import {
   Button,
-  Cascader,
-  Checkbox,
   DatePicker,
   Form,
   Input,
-  InputNumber,
   Radio,
   Select,
-  Slider,
-  Switch,
-  TreeSelect,
-  Upload,
   Space,
 } from "antd";
-import { useSelector, useDispatch } from "react-redux";
 import { addItem } from "features/saveDataSlice";
-import { getItem, clearAlltem, deleteItem } from "features/userDataSlice";
+import { getItem, deleteItem } from "features/userDataSlice";
 import dayjs from "dayjs";
 import TableComponent from "components/TableComponent";
 import { useAppSelector, useAppDispatch } from "app/hooks";
-import { UserInterface } from "types/interface";
 import { useTranslation } from "react-i18next";
+import "../styles/css/form.css";
 
-const { RangePicker } = DatePicker;
-const { TextArea } = Input;
 const { Option } = Select;
 
 const PersonalDataStorage = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [form] = Form.useForm();
   const data = useAppSelector((state) => state.manage.data);
-  console.log(data);
   const rawData = useAppSelector((state) => state.dataManage.data);
-  console.log(rawData);
   const dispatch = useAppDispatch();
-  const clearData = () => {
-    dispatch(clearAlltem());
-    console.log(localStorage, rawData);
-  };
   const deleteData = () => {
     dispatch(deleteItem());
-    console.log(localStorage, rawData);
   };
   const onFinish = (values: any) => {
     console.log("Success:", values, values.dateOfBirth);
     const data = {
       ...values,
+      telephone: values.telephone.code + values.telephone.number,
       key: values.username,
       dateOfBirth: dayjs(
         `${
@@ -55,7 +39,6 @@ const PersonalDataStorage = () => {
         }`
       ).format("D/M/YYYY"),
     };
-    console.log(data);
     dispatch(addItem(data));
   };
 
@@ -64,24 +47,16 @@ const PersonalDataStorage = () => {
   };
 
   useEffect(() => {
-    // let rawKeys = [];
     const getUserData = () => {
-      console.log("get");
-
       const keys = Object.keys(localStorage);
       const rawKeys = keys.filter((i) => i.includes("user:"));
-      console.log(rawKeys);
       rawKeys.forEach((i) => {
-        console.log(JSON.parse(localStorage.getItem(i) as string));
-        console.log("dispatch");
-        console.log(rawData.length , rawKeys.length)
         if (rawKeys.length > rawData.length) {
 
           dispatch(getItem(JSON.parse(localStorage.getItem(i) as string)));
         }
       });
     };
-    
 
     getUserData();
 
@@ -91,9 +66,9 @@ const PersonalDataStorage = () => {
     <div>
       <Form
         name="basic"
-        labelCol={{ span: 8 }}
-        wrapperCol={{ span: 16 }}
-        style={{ maxWidth: 600 }}
+        labelCol={{ span: 0 }}
+        wrapperCol={{ span: 15 }}
+        style={{ maxWidth: 500 }}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
         autoComplete="off"
@@ -138,20 +113,21 @@ const PersonalDataStorage = () => {
           </Select>
         </Form.Item>
         {/* <Form.Item
-          label="National ID"
+          label={`${t("nationalID")}`}
           name="nationalID"
           rules={[{ required: true }]}
         >
-          <Input style={{ width: "13%" }} type="number" maxLength={1} /> -{" "}
-          <Input style={{ width: "15%" }} maxLength={4} /> -{" "}
-          <Input style={{ width: "17%" }} maxLength={5} /> -{" "}
-          <Input style={{ width: "11%" }} maxLength={2} /> -{" "}
-          <Input style={{ width: "9%" }} maxLength={1} />
+          <Input type="number" inputMode="numeric" style={{ width: "10%" }} maxLength={1} /> -{" "}
+          <Input type="number" inputMode="numeric" style={{ width: "15%" }} maxLength={4} /> -{" "}
+          <Input type="number" inputMode="numeric" style={{ width: "17%" }} maxLength={5} /> -{" "}
+          <Input type="number" inputMode="numeric" style={{ width: "11%" }} maxLength={2} /> -{" "}
+          <Input type="number" inputMode="numeric" style={{ width: "9%" }} maxLength={1} />
         </Form.Item> */}
         <Form.Item label={`${t("gender")}`} name="gender" rules={[{ required: true }]}>
           <Radio.Group>
-            <Radio value="male"> Male </Radio>
-            <Radio value="female"> Female </Radio>
+            <Radio value="men"> {t('men')} </Radio>
+            <Radio value="women"> {t('women')} </Radio>
+            <Radio value="not_to_state"> {t('not_to_state')} </Radio>
           </Radio.Group>
         </Form.Item>
         <Form.Item label={`${t("telephone_number")}`} rules={[{ required: true }]}>
@@ -163,19 +139,19 @@ const PersonalDataStorage = () => {
               </Select>
             </Form.Item>
             <Form.Item name={["telephone", "number"]} noStyle>
-              <Input />
+              <Input type="number" inputMode="numeric" style={{ width: '100%' }} />
             </Form.Item>
           </Space.Compact>
         </Form.Item>
         <Form.Item label={`${t("passport")}`} name="passport">
-          <Input />
+          <Input type="number" inputMode="numeric" style={{ width: '100%' }} />
         </Form.Item>
         <Form.Item
           label={`${t("expect_salary")}`}
           name="salary"
           rules={[{ required: true }]}
         >
-          <Input />
+          <Input type="number" inputMode="numeric" style={{ width: '100%' }}/>
         </Form.Item>
 
         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
@@ -191,7 +167,6 @@ const PersonalDataStorage = () => {
           </Button>
         </Form.Item>
       </Form>
-      <Button onClick={clearData}>Clear localStorage</Button>
       <Button onClick={deleteData}>{t("delete_data")}</Button>
       <TableComponent userData={rawData}  />
     </div>

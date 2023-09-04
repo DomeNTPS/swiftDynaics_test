@@ -1,5 +1,5 @@
 import React from "react";
-import { Layout, Space, Divider, Button, Row, Col } from "antd";
+import { Layout, Button, Row, Col } from "antd";
 import "../styles/css/shape.css";
 
 const { Content } = Layout;
@@ -38,7 +38,6 @@ const LayoutShifting = () => {
 
   const shuffleArray = () => {
     const shuffle = shape.sort(() => Math.random() - 0.5);
-    console.log(shuffle);
     setShape(shuffle);
   };
   return (

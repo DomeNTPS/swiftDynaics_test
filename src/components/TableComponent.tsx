@@ -1,12 +1,12 @@
 import { useState } from "react";
 import type { TableProps } from "antd";
-import { Button, Space, Table } from "antd";
+import { Table } from "antd";
 import type {
   ColumnsType,
   SorterResult,
   TableRowSelection,
 } from "antd/es/table/interface";
-import { DataType, UserInterface } from "../types/interface";
+import { DataType } from "../types/interface";
 import { selectItem } from "features/userDataSlice";
 import { useAppSelector, useAppDispatch } from "app/hooks";
 import { useTranslation } from "react-i18next";
@@ -75,7 +75,15 @@ const TableComponent = (data: any) => {
       title: t("telephone_number"),
       dataIndex: "telephone",
       key: "telephone",
-      // sorter: (a, b) => a.address.length - b.address.length,
+      sorter: (a, b) => {
+        if (a.telephone.number < b.telephone.number) {
+          return -1;
+        }
+        if (a.telephone.number > b.telephone.number) {
+          return 1;
+        }
+        return 0;
+      },
       sortOrder: sortedInfo.columnKey === "telephone" ? sortedInfo.order : null,
       ellipsis: true,
     },

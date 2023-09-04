@@ -19,7 +19,6 @@ export const dataManage = createSlice({
     getItem: (state, action) => {
       console.log(state.data, action.payload);
       state.data = [...state.data, action.payload];
-      // state.data = [...new Set(state.data)];
       console.log(state.data);
     },
     selectItem: (state, action) => {
@@ -29,9 +28,9 @@ export const dataManage = createSlice({
     },
     deleteItem: (state) => {
       console.log(state.selectedData, "delete", state.data);
-      // state.selectedData.forEach((i) => {
-      //   localStorage.removeItem(`user:${i}`);
-      // });
+      state.selectedData.forEach((i) => {
+        localStorage.removeItem(`user:${i}`);
+      });
       // for (let i = 0; i < state.data.length; i++) {
       //   if (arr[i] === "splice") {
       //     let spliced = arr.splice(i, 1);

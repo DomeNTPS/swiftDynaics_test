@@ -28,14 +28,11 @@ export const saveData = createSlice({
   initialState,
   reducers: {
     addItem: (state, action) => {
-      console.log(state.data, action.payload);
       state.data = action.payload;
-      console.log(state.data);
       localStorage.setItem(
         `user:${state.data.username}`,
         JSON.stringify(state.data)
       );
-      console.log(state.data);
     },
   },
 });

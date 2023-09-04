@@ -1,41 +1,39 @@
-import React from "react";
-import i18n from "i18next";
-import { useTranslation, initReactI18next } from "react-i18next";
+import { useTranslation,  } from "react-i18next";
 import {
   Layout,
-  Space,
   Col,
-  Divider,
   Row,
-  Button,
-  Dropdown,
-  Typography,
 } from "antd";
 import { Link } from "react-router-dom";
 
 const { Content } = Layout;
 
-
 const MainPage = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   return (
-    <div>
-      <Content>
-        <Row justify="space-evenly">
-          <Col span={5}>
-          <Link to="/layout-shifting">1</Link>
-          </Col>
-          <Col span={5}>
-            <Button type="text" block>
-              text
-            </Button>
-          </Col>
-          <Col span={5}>
-            <Link to="/personal-data-storage">3</Link>
-          </Col>
-        </Row>
-      </Content>
-    </div>
+    <Content>
+      <Row justify="space-evenly">
+        <Col span={7}>
+          <Link to="/layout-shifting">
+            <div style={{ backgroundColor: "white", padding: "20px" }}>
+              {t("test")}1<p>{t("Header")}</p>
+            </div>
+          </Link>
+        </Col>
+        <Col span={7}>
+          <div style={{ backgroundColor: "white", padding: "20px" }}>
+            {t("test")}2<p>{t("Header2")}</p>
+          </div>
+        </Col>
+        <Col span={7}>
+          <Link to="/personal-data-storage">
+            <div style={{ backgroundColor: "white", padding: "20px" }}>
+              {t("test")}3<p>{t("Header3")}</p>
+            </div>
+          </Link>
+        </Col>
+      </Row>
+    </Content>
   );
 };
 

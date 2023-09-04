@@ -1,5 +1,4 @@
-import { lazy } from "react";
-import { Routes, Route, Link, NavLink, Navigate } from "react-router-dom";
+import { Routes, Route} from "react-router-dom";
 import MainPage from "../pages/MainPage";
 import PersonalDataStorage from "../pages/PersonalDataStorage";
 import LayoutShifting from "../pages/LayoutShifting";
